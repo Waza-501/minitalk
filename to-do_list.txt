@@ -1,0 +1,2 @@
+Turn string (char) into bits, send them one by one to server.
+server takes bits, reverse engineers them into string of bits, each char is 8 bits
