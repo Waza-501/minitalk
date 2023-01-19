@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/12 14:19:59 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/19 13:38:21 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ int	main(int argc, char **argv)
 	}
 	info->pid = ft_atoi(argv[1]);
 	info->string = argv[2];
+	return (1);
 }
