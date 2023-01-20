@@ -6,11 +6,11 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/19 17:50:37 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/20 17:47:43 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minitalk.h"
+#include "minitalk.h"
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>

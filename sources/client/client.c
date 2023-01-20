@@ -6,11 +6,14 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/19 13:38:21 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/20 16:56:50 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <signal.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 static bool	input_check(int argc, char **argv)
 {
@@ -27,6 +30,24 @@ static bool	input_check(int argc, char **argv)
 	return (true);
 }
 
+void	send_string(int signal)
+{
+	int	i;
+	int	temp;
+	int	bit;
+
+	bit = 1;
+	if (signal == SIGUSR1)
+	{
+		while (bit == 1)
+		{
+			write (1, "hello there\n", 13);
+			usleep (500);
+		}
+	}
+	
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*info;
@@ -37,5 +58,6 @@ int	main(int argc, char **argv)
 	}
 	info->pid = ft_atoi(argv[1]);
 	info->string = argv[2];
-	return (1);
+	signal(SIGUSR1, send_string);
+	return (0);
 }

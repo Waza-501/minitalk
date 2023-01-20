@@ -4,7 +4,7 @@ CC :=			gcc
 FLAGS :=		-Wall -Werror -Wextra
 
 LIBRARIES :=	./libraries/libft/libft.a
-HEADERS :=		-I ./includes
+HEADERS :=		-I ./includes ./libraries/libft/libft.h
 INCLUDE_DIR :=	./includes
 OBJECT_DIR	:=	./objects
 OBJECT_DIR1 :=	./objects/server
@@ -12,8 +12,8 @@ OBJECT_DIR2 :=	./objects/client
 SOURCE_DIR1 :=	./sources/server/
 SOURCE_DIR2 :=	./sources/client/
 LIBFT :=		./libraries/libft
-OBJECTS :=		$(addprefix $(OBJECT_DIR1)/, $(SOURCES1!:.c=.o))
-OBJECTS :=		$(addprefix $(OBJECT_DIR2)/, $(SOURCES2!:.c=.o))
+OBJECTS1 :=		$(addprefix $(OBJECT_DIR1)/, $(SOURCES1!:.c=.o))
+OBJECTS2 :=		$(addprefix $(OBJECT_DIR2)/, $(SOURCES2!:.c=.o))
 
 
 
