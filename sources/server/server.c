@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/25 16:27:22 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/25 16:45:09 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ static void	signal_handler(int signal, siginfo_t *info, void *other)
 	if (c == '\0')
 		i = 0;
 		c = 0;
-		kill(pid, SIGUSR1);
+		kill(pid, SIGUSR2);
 		return ;
-	kill(pid, SIGUSR2);
+	kill(pid, SIGUSR1);
 }
 
 int	main(void)
