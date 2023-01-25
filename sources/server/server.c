@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/20 17:47:43 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/25 15:56:27 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ int	main(void)
 	sa.sa_sigaction = &signal_handler;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
+	return (0);
 }

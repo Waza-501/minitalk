@@ -6,11 +6,11 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/20 16:56:50 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/25 15:37:53 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "includes/minitalk.h"
 #include <signal.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -45,12 +45,12 @@ void	send_string(int signal)
 			usleep (500);
 		}
 	}
-	
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	*info;
+
 	if (input_check(argc, argv) == false)
 	{
 		write(2, "input error, please try again", 30);

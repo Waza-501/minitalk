@@ -3,17 +3,22 @@ NAME2 :=		client
 CC :=			gcc
 FLAGS :=		-Wall -Werror -Wextra
 
-LIBRARIES :=	./libraries/libft/libft.a
-HEADERS :=		-I ./includes ./libraries/libft/libft.h
+LIBRARIES :=	./libraries/libft/libft.a\
+
+SOURCES1	:=	server.c\
+
+SOURCES2	:=	client.c\
+
 INCLUDE_DIR :=	./includes
+HEADERS :=		-I ./includes -I ./libraries/libft/header
+LIBFT :=		./libraries/libft
+SOURCE_DIR1 :=	./sources/server
+SOURCE_DIR2 :=	./sources/client
 OBJECT_DIR	:=	./objects
 OBJECT_DIR1 :=	./objects/server
 OBJECT_DIR2 :=	./objects/client
-SOURCE_DIR1 :=	./sources/server/
-SOURCE_DIR2 :=	./sources/client/
-LIBFT :=		./libraries/libft
-OBJECTS1 :=		$(addprefix $(OBJECT_DIR1)/, $(SOURCES1!:.c=.o))
-OBJECTS2 :=		$(addprefix $(OBJECT_DIR2)/, $(SOURCES2!:.c=.o))
+OBJECTS1 :=		$(addprefix $(OBJECT_DIR1)/, $(SOURCES1:.c=.o))
+OBJECTS2 :=		$(addprefix $(OBJECT_DIR2)/, $(SOURCES2:.c=.o))
 
 
 
@@ -25,13 +30,13 @@ $(NAME1):		$(OBJECTS1)
 $(NAME2):		$(OBJECTS2)
 					$(CC) $(FLAGS) $(LIBRARIES) -o $@ $^ $(HEADERS)
 
-$(OBJECT_DIR1)/%.o:	$(SOURCE_DIR)/%.c
+$(OBJECT_DIR1)/%.o:	$(SOURCE_DIR1)/%.c
 						mkdir -p $(dir $@)
-						$(CC) -c -o $@ $< -03
+						$(CC) -c -o $@ $< -O3
 
-$(OBJECT_DIR2)/%.o:	$(SOURCE_DIR)/%.c
+$(OBJECT_DIR2)/%.o:	$(SOURCE_DIR2)/%.c
 						mkdir -p $(dir $@)
-						$(CC) -c -o $@ $< -03
+						$(CC) -c -o $@ $< -O3
 
 clean:
 		rm -f $(OBJECTS1) $(OBJECTS2)
