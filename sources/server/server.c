@@ -6,72 +6,65 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/25 16:45:09 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/26 18:54:06 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minitalk.h"
-#include <signal.h>
-#include <stdio.h>
+#include "minitalk.h"
 #include <unistd.h>
 #include <stdlib.h>
-
-int	ft_strlen(const char *s)
+static char	*builder(char c, char *string)
 {
-	int	size;
-
-	while (*s)
-	{
-		size++;
-		s++;
-	}
-	return (size);
+	
 }
 
 static char	translator(char c)
 {
-	char	*string;
-	char	*new_string;
-	int		tally;	
+	static char		*string;
 
-	new_string = (char *)malloc(ft_strlen (string) + 2);
-	tally = 0;
-	if (!new_string)
+	string = NULL;
+	if (c != "\0")
+		builder(string, c);
+	else
+	{
+		builder(string, c);
+		ft_printf("%s\n", string);
+		free (string);
 		return (0);
-	while (*string)
-	{
-		new_string[tally] = *string;
-		tally++;
-		string++;
 	}
-	if (c)
-	{
-		new_string[tally] = c;
-		tally++;
-	}
-	new_string[tally] = 0;
-	printf("%s\n", string);
-	return (*string);
 }
 
-static void	signal_handler(int signal, siginfo_t *info, void *other)
+void	signal_handler(int signal, siginfo_t *info, void *other)
 {
-	int		i;
-	char	c;
-	int 	pid;
+	static char		c;
+	static int		i;
+	static int		pid;
 
 	(void)other;
+	if (info->si_pid == 0)
+	{
+		write(1, ":(\n", 4);
+		exit(0);
+	}
 	pid = info->si_pid;
+	write (1, "ping\n", 6);
+	ft_printf("%d\n", pid);
 	if (signal == SIGUSR1)
 		c |= 1 << i;
 	i++;
 	if (i == 8)
+	{
 		translator(c);
-	if (c == '\0')
+		if (c == '\0')
+		{
+			i = 0;
+			c = 0;
+			kill(pid, SIGUSR2);
+			return;
+		}
 		i = 0;
 		c = 0;
-		kill(pid, SIGUSR2);
-		return ;
+	}
 	kill(pid, SIGUSR1);
 }
 
@@ -81,10 +74,12 @@ int	main(void)
 	struct	sigaction		sa;
 
 	pid = getpid();
-	printf("%d\n", pid);
+	ft_printf("%d\n", pid);
 	sa.sa_handler = SIG_DFL;
 	sa.sa_sigaction = &signal_handler;
+	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	return (0);
+	while (true)
+		pause();
 }

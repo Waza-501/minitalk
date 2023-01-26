@@ -1,7 +1,7 @@
 NAME1 :=		server
 NAME2 :=		client
 CC :=			gcc
-FLAGS :=		-Wall -Werror -Wextra
+FLAGS :=		-Wall -Werror -Wextra -g
 
 LIBRARIES :=	./libraries/libft/libft.a\
 
@@ -32,11 +32,11 @@ $(NAME2):		$(OBJECTS2)
 
 $(OBJECT_DIR1)/%.o:	$(SOURCE_DIR1)/%.c
 						mkdir -p $(dir $@)
-						$(CC) -c -o $@ $< -O3
+						$(CC) $(FLAGS) $(HEADERS) -c -o $@ $< -O3
 
 $(OBJECT_DIR2)/%.o:	$(SOURCE_DIR2)/%.c
 						mkdir -p $(dir $@)
-						$(CC) -c -o $@ $< -O3
+						$(CC) $(FLAGS) $(HEADERS) -c -o $@ $< -O3
 
 clean:
 		rm -f $(OBJECTS1) $(OBJECTS2)
