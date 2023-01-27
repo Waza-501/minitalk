@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/26 16:12:36 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/27 17:06:28 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static bool	input_check(int argc, char **argv)
 		if (!ft_strchr("0123456789", argv[1][i]))
 			return (false);
 	}
-	write (1, "ping\n", 6);
 	return (true);
 }
 
@@ -48,9 +47,7 @@ void	send_string(int signal)
 	size = 0;
 	if (signal == SIGUSR2)
 		exit (0);
-	write(1, "ping2\n", 7);
-	if (bit == 1)
-		write (1, "hello there\n", 13);
+	
 }
 
 int	main(int argc, char **argv)
@@ -67,6 +64,5 @@ int	main(int argc, char **argv)
 	info->string = argv[2];
 	signal(SIGUSR1, send_string);
 	signal(SIGUSR2, send_string);
-	kill(info->pid, SIGUSR1);
 	return (0);
 }
