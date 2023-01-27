@@ -6,32 +6,54 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/26 18:54:06 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/01/27 15:30:18 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 #include <unistd.h>
 #include <stdlib.h>
-static char	*builder(char c, char *string)
+
+static char	*end_string(char *string)
 {
-	
+	ft_printf("%s\n", string);
+	free (string);
+	string = NULL;
+	return (string);
 }
 
-static char	translator(char c)
+static void	malloc_error(void)
+{
+	write (2, "Malloc error\n", 14);
+	exit ;
+}
+
+static void	translator(char c)
 {
 	static char		*string;
+	static char		*temp;
+	char			ch[2];
 
-	string = NULL;
-	if (c != "\0")
-		builder(string, c);
-	else
+	ch[0] = c;
+	ch[1] = '\0';
+	if (c != '\0')
 	{
-		builder(string, c);
-		ft_printf("%s\n", string);
-		free (string);
-		return (0);
+		if (temp == NULL)
+		{
+			temp = ft_strdup(ch);
+			if (temp == NULL)
+				malloc_error();
+		}
+		else
+		{
+			string = ft_strjoin(temp, c);
+			free (temp);
+		}
 	}
+	if (string == NULL)
+		malloc_error();
+	else
+		string = end_string(string);
 }
 
 void	signal_handler(int signal, siginfo_t *info, void *other)
@@ -41,14 +63,8 @@ void	signal_handler(int signal, siginfo_t *info, void *other)
 	static int		pid;
 
 	(void)other;
-	if (info->si_pid == 0)
-	{
-		write(1, ":(\n", 4);
-		exit(0);
-	}
-	pid = info->si_pid;
-	write (1, "ping\n", 6);
-	ft_printf("%d\n", pid);
+	if (info->si_pid != 0)
+		pid = info->si_pid;
 	if (signal == SIGUSR1)
 		c |= 1 << i;
 	i++;
@@ -60,7 +76,7 @@ void	signal_handler(int signal, siginfo_t *info, void *other)
 			i = 0;
 			c = 0;
 			kill(pid, SIGUSR2);
-			return;
+			return ;
 		}
 		i = 0;
 		c = 0;
@@ -71,13 +87,14 @@ void	signal_handler(int signal, siginfo_t *info, void *other)
 int	main(void)
 {
 	pid_t					pid;
-	struct	sigaction		sa;
+	struct sigaction		sa;
 
 	pid = getpid();
 	ft_printf("%d\n", pid);
 	sa.sa_handler = SIG_DFL;
 	sa.sa_sigaction = &signal_handler;
 	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (true)
