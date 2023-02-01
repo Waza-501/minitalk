@@ -6,7 +6,7 @@
 #    By: ohearn <ohearn@student.42.fr>                +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/11 20:08:26 by ohearn        #+#    #+#                  #
-#    Updated: 2022/10/13 14:40:27 by ohearn        ########   odam.nl          #
+#    Updated: 2023/02/01 16:31:43 by ohearn        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS	=		ft_printf.c\
 				ft_lstclear.c\
 				ft_lstiter.c\
 				ft_lstmap.c\
+				error_message.c\
 				
 
 NAME	=	libft.a

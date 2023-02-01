@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/11 20:49:31 by ohearn        #+#    #+#                 */
-/*   Updated: 2022/10/13 14:45:23 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/01 16:29:18 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
+
+/*My own functions*/
+
+void		error_message(void);
 
 /* Printf files not included in libft*/
 

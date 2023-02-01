@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/27 15:30:18 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/01 14:22:39 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*end_string(char *string)
 static void	malloc_error(void)
 {
 	write (2, "Malloc error\n", 14);
-	exit ;
+	return ;
 }
 
 static void	translator(char c)
