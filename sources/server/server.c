@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/01 14:22:39 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/02 14:06:48 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ static char	*end_string(char *string)
 	free (string);
 	string = NULL;
 	return (string);
-}
-
-static void	malloc_error(void)
-{
-	write (2, "Malloc error\n", 14);
-	return ;
 }
 
 static void	translator(char c)
@@ -42,16 +36,16 @@ static void	translator(char c)
 		{
 			temp = ft_strdup(ch);
 			if (temp == NULL)
-				malloc_error();
+				error_message("Malloc error");
 		}
 		else
 		{
-			string = ft_strjoin(temp, c);
+			string = ft_strjoin(temp, &c);
 			free (temp);
 		}
 	}
 	if (string == NULL)
-		malloc_error();
+		error_message("Malloc error");
 	else
 		string = end_string(string);
 }

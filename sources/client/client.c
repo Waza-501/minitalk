@@ -6,13 +6,13 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/01 17:59:21 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/02 15:09:32 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static bool	input_check(int argc, char **argv)
+/*static bool	input_check(int argc, char **argv)
 {
 	int	i;
 
@@ -27,39 +27,54 @@ static bool	input_check(int argc, char **argv)
 	return (true);
 }
 
-// t_data	*info_set(void)
-// {
-// 	static t_data	info;
+t_data	*info_set(void)
+{
+	static t_data	info;
 
-// 	return (&info);
-// }
+	return (&info);
+}*/
+void	recieve_ping(int signal, siginfo_t *info, void *other)
+{
 
-void	send_string(int signal, siginfo_t *info, void *other)
+}
+
+void	send_string()
 {
 	int				i;
 	int				temp;
 	static int		bit;
 	static size_t	size;
+	int				pid;
 
-	bit = 1;
+	pid = getpid();
+	bit = 0;
 	size = 0;
 	i = size;
 	temp = bit;
-	if (signal == SIGUSR2)
-		exit (0);
-	exit (1);
+	if (true)
+		kill(pid, SIGUSR1);
+	else
+		kill(pid, SIGUSR2);
+	return ;
+	
 }
 
 int	main(int argc, char **argv)
 {
 	struct sigaction	sa;
 	
-	if (argc != 3 || ft_itao(argv[1]) == 0)
-		error_message();
+	if (argc != 3 || ft_atoi(argv[1]) == 0)
+		error_message("Input error, please try again");
 	sa.sa_handler = SIG_DFL;
-	sa.sa_sigaction = &send_string;
+	sa.sa_sigaction = &recieve_ping;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	{
+		error_message("Error");
+	}
+
+
 }
 
 // int	main(int argc, char **argv)
