@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/11 15:10:42 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/01/26 15:29:57 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/05 15:04:30 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef struct s_data
 /*server*/
 void		signal_handler(int signal, siginfo_t *info, void *other);
 
-
 /*client*/
-
 
 #endif

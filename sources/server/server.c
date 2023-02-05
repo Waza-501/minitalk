@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/02 14:06:48 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/05 19:14:09 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,30 @@ static char	*end_string(char *string)
 
 static void	translator(char c)
 {
-	static char		*string;
-	static char		*temp;
+	static char		*string = NULL;
+	char			*temp = NULL;
 	char			ch[2];
 
 	ch[0] = c;
 	ch[1] = '\0';
 	if (c != '\0')
 	{
-		if (temp == NULL)
+		if (temp == NULL && string == NULL)
 		{
-			temp = ft_strdup(ch);
-			if (temp == NULL)
-				error_message("Malloc error");
+			string = ft_strdup(ch);
+			if (string == NULL)
+				error_message("Malloc dup error");
 		}
 		else
 		{
-			string = ft_strjoin(temp, &c);
+			temp = ft_strdup(string);
+			free (string);
+			string = ft_strjoin(temp, ch);
+			if (string == NULL)
+				error_message("Malloc join error");
 			free (temp);
 		}
 	}
-	if (string == NULL)
-		error_message("Malloc error");
 	else
 		string = end_string(string);
 }
@@ -53,8 +55,8 @@ static void	translator(char c)
 void	signal_handler(int signal, siginfo_t *info, void *other)
 {
 	static char		c;
-	static int		i;
-	static int		pid;
+	static int		i = 0;
+	static int		pid = 0;
 
 	(void)other;
 	if (info->si_pid != 0)

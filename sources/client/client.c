@@ -6,75 +6,81 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/02 15:09:32 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/05 19:20:19 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-/*static bool	input_check(int argc, char **argv)
-{
-	int	i;
+int	g_sent;
 
-	i = -1;
-	if (argc != 3)
-		return (false);
-	while (argv[1][++i])
-	{
-		if (!ft_strchr("0123456789", argv[1][i]))
-			return (false);
-	}
-	return (true);
+int	send_signal(int pid, int bit, char c)
+{
+	if (c & (1 << bit))
+		return (kill(pid, SIGUSR1));
+	else
+		return (kill(pid, SIGUSR2));
 }
 
-t_data	*info_set(void)
+void	send_string(int pid, char *string)
 {
-	static t_data	info;
+	static int		i;
+	int				temp;
+	static int		c_pid;
+	static int		bit = 0;
+	static char		*c_string;
 
-	return (&info);
-}*/
+	temp = bit;
+	if (!c_pid)
+		c_pid = pid;
+	if (!c_string)
+		c_string = string;
+	bit++;
+	if (bit == 8)
+	{
+		bit = 0;
+		i++;
+	}
+	g_sent += 1;
+	send_signal(c_pid, temp, c_string[i]);
+}
+
 void	recieve_ping(int signal, siginfo_t *info, void *other)
 {
+	static int	recieved;
 
-}
-
-void	send_string()
-{
-	int				i;
-	int				temp;
-	static int		bit;
-	static size_t	size;
-	int				pid;
-
-	pid = getpid();
-	bit = 0;
-	size = 0;
-	i = size;
-	temp = bit;
-	if (true)
-		kill(pid, SIGUSR1);
-	else
-		kill(pid, SIGUSR2);
-	return ;
-	
+	(void)info;
+	(void)other;
+	recieved += 1;
+	if (signal == SIGUSR2)
+	{
+		ft_printf ("Total signals sent %d\n", g_sent);
+		ft_printf ("Total signals recieved %d\n", recieved);
+		exit (0);
+	}
+	send_string(0, NULL);
 }
 
 int	main(int argc, char **argv)
 {
 	struct sigaction	sa;
-	
-	if (argc != 3 || ft_atoi(argv[1]) == 0)
+
+	if (argc != 3 || ft_atoi(argv[1]) < 0)
+	{
 		error_message("Input error, please try again");
+		return (-1);
+	}
 	sa.sa_handler = SIG_DFL;
 	sa.sa_sigaction = &recieve_ping;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (sigaction(SIGUSR1, &sa, NULL) || sigaction(SIGUSR2, &sa, NULL) == -1)
 	{
 		error_message("Error");
 	}
-
-
+	send_string(ft_atoi(argv[1]), argv[2]);
+	while (true)
+		pause();
 }
 
 // int	main(int argc, char **argv)
