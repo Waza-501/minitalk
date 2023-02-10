@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:25 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/05 19:20:19 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/09 18:16:56 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv)
 	if (argc != 3 || ft_atoi(argv[1]) < 0)
 	{
 		error_message("Input error, please try again");
-		return (-1);
+		exit (-1);
 	}
 	sa.sa_handler = SIG_DFL;
 	sa.sa_sigaction = &recieve_ping;
@@ -77,6 +77,7 @@ int	main(int argc, char **argv)
 	if (sigaction(SIGUSR1, &sa, NULL) || sigaction(SIGUSR2, &sa, NULL) == -1)
 	{
 		error_message("Error");
+		exit (1);
 	}
 	send_string(ft_atoi(argv[1]), argv[2]);
 	while (true)

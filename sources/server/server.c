@@ -6,7 +6,7 @@
 /*   By: ohearn <ohearn@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/08 17:49:35 by ohearn        #+#    #+#                 */
-/*   Updated: 2023/02/05 19:14:09 by ohearn        ########   odam.nl         */
+/*   Updated: 2023/02/08 14:32:38 by ohearn        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,21 @@ static char	*end_string(char *string)
 static void	translator(char c)
 {
 	static char		*string = NULL;
-	char			*temp = NULL;
+	char			*temp;
 	char			ch[2];
 
+	temp = NULL;
 	ch[0] = c;
 	ch[1] = '\0';
 	if (c != '\0')
 	{
 		if (temp == NULL && string == NULL)
-		{
 			string = ft_strdup(ch);
-			if (string == NULL)
-				error_message("Malloc dup error");
-		}
 		else
 		{
 			temp = ft_strdup(string);
 			free (string);
 			string = ft_strjoin(temp, ch);
-			if (string == NULL)
-				error_message("Malloc join error");
 			free (temp);
 		}
 	}
